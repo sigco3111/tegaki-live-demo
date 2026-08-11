@@ -21,7 +21,7 @@
 - [➕ 다른 폰트 추가하기](#-다른-폰트-추가하기)
 - [🎨 디자인 결정](#-디자인-결정-design-choices)
 - [📁 프로젝트 구조](#-프로젝트-구조-structure)
-- [⚠️ 알려진 함정 / Troubleshooting](#알려진-함정--troubleshooting)
+- [알려진 함정 / Troubleshooting](#알려진-함정--troubleshooting)
 - [성능 / 번들 사이즈](#성능--번들-사이즈)
 - [로드맵](#로드맵-roadmap)
 - [🌏 다국어](#-다국어-multilingual)
@@ -419,7 +419,7 @@ tegaki-live-demo/
 
 ---
 
-## ⚠️ 알려진 함정 / Troubleshooting
+## 알려진 함정 / Troubleshooting
 
 ### 1. 한글이 한 점에 겹쳐 그려짐 ⚠️ **가장 흔한 함정**
 
@@ -581,7 +581,7 @@ dist/fonts/klee-one/subset.ttf        237 KB
 
 ---
 
-## 🗺️ 로드맵 (Roadmap)
+## 로드맵 (Roadmap)
 
 ### v0.2 — UX 개선 (진행 예정)
 
