@@ -92,6 +92,7 @@ html, body {
 
 .controls input[type="text"] {
   width: 100%;
+  min-width: 0;       /* flex/grid 안에서 shrink 허용 */
   padding: 12px 14px;
   background: var(--bg);
   color: var(--fg);
@@ -105,18 +106,100 @@ html, body {
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 200px;
-  gap: 12px;
+  grid-template-columns: 1fr 240px;        /* 셀렉트 컬럼 조금 넓힘 */
+  gap: 16px;
   margin-bottom: 16px;
 }
 
+.row-3 {
+  grid-template-columns: 1fr 1fr 140px;    /* 새 3-컬럼 행: 크기 / 속도 / 반복 */
+  align-items: end;
+}
+
+.row-3 > div { min-width: 0; }
+
+.row-3 label strong {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
 .controls select {
-  padding: 12px 14px;
+  width: 100%;
+  min-width: 0;
+  padding: 12px 36px 12px 14px;     /* arrow 공간 확보 */
   background: var(--bg);
   color: var(--fg);
   border: 1px solid var(--border);
   border-radius: 8px;
   outline: none;
+  cursor: pointer;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2212%22%20height%3D%2212%22%20viewBox%3D%220%200%2012%2012%22%3E%3Cpath%20fill%3D%22%239aa0b4%22%20d%3D%22M2%204l4%204%204-4z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.controls select:focus { border-color: var(--accent); }
+
+.range-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+  margin: 8px 0;
+}
+
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+.range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.range-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.loop-cell {
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 8px;
+}
+
+.loop-label {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  margin-bottom: 0 !important;
+  font-size: 14px !important;
+  color: var(--fg) !important;
+}
+
+.loop-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
   cursor: pointer;
 }
 
@@ -124,15 +207,18 @@ html, body {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 32px 16px;
+  padding: 40px 24px;
   margin-bottom: 24px;
-  min-height: 200px;
+  min-height: 220px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
   overflow-x: auto;
+  overflow-y: hidden;
 }
+
+.canvas-area > * { max-width: 100%; }
 
 .empty {
   color: var(--fg-dim);
@@ -141,7 +227,7 @@ html, body {
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
   margin-top: 24px;
 }
@@ -153,6 +239,7 @@ html, body {
   padding: 20px;
   cursor: pointer;
   transition: all 0.2s;
+  overflow: hidden;
 }
 
 .font-card:hover { border-color: var(--accent); transform: translateY(-2px); }
@@ -163,12 +250,15 @@ html, body {
 .font-card .preview {
   font-size: 32px;
   text-align: center;
-  padding: 16px 0;
-  min-height: 64px;
+  padding: 16px 8px;
+  min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
+
+.font-card .preview > * { max-width: 100%; }
 
 .footer {
   margin-top: 48px;
@@ -180,7 +270,9 @@ html, body {
 .footer a { color: var(--accent-2); text-decoration: none; }
 .footer a:hover { text-decoration: underline; }
 
-@media (max-width: 600px) {
+@media (max-width: 720px) {
   .row { grid-template-columns: 1fr; }
+  .row-3 { grid-template-columns: 1fr; }
+  .loop-cell { padding-bottom: 0; padding-top: 8px; }
   .app { padding: 16px 12px 32px; }
 }

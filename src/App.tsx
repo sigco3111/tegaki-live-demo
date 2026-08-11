@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { TegakiRenderer } from 'tegaki/react';
 import caveat from 'tegaki/fonts/caveat';
 import tangerine from 'tegaki/fonts/tangerine';
@@ -58,17 +58,21 @@ const PRESETS: Record<FontKey, string> = {
   tangerine: 'Beautiful Handwriting',
 };
 
+const SPEED_PRESETS = [
+  { value: 0.25, label: '0.25x (느리게)' },
+  { value: 0.5, label: '0.5x' },
+  { value: 1, label: '1x (기본)' },
+  { value: 1.5, label: '1.5x' },
+  { value: 2, label: '2x' },
+  { value: 3, label: '3x (빠르게)' },
+];
+
 export default function App() {
   const [fontKey, setFontKey] = useState<FontKey>('nanum-pen-script');
   const [text, setText] = useState(PRESETS['nanum-pen-script']);
   const [size, setSize] = useState(72);
-  const [loaded, setLoaded] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const renderRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    setLoaded(true);
-  }, []);
+  const [speed, setSpeed] = useState(1);
+  const [loop, setLoop] = useState(false);
 
   const currentFont = FONTS.find((f) => f.key === fontKey)!;
 
@@ -115,19 +119,22 @@ export default function App() {
               id="font-select"
               value={fontKey}
               onChange={(e) => onFontChange(e.target.value as FontKey)}
+              title="폰트 선택 (Select font)"
             >
               {FONTS.map((f) => (
                 <option key={f.key} value={f.key}>
-                  {f.korean} ({f.name})
+                  {f.korean} — {f.name}
                 </option>
               ))}
             </select>
           </div>
         </div>
 
-        <div className="row">
+        <div className="row row-3">
           <div>
-            <label htmlFor="size">크기 (Size): {size}px</label>
+            <label htmlFor="size">
+              크기 (Size): <strong>{size}px</strong>
+            </label>
             <input
               id="size"
               type="range"
@@ -135,22 +142,55 @@ export default function App() {
               max={140}
               value={size}
               onChange={(e) => setSize(Number(e.target.value))}
-              style={{ width: '100%' }}
+              className="range-slider"
             />
+          </div>
+          <div>
+            <label htmlFor="speed">
+              속도 (Speed): <strong>{speed}x</strong>
+            </label>
+            <input
+              id="speed"
+              type="range"
+              min={0.25}
+              max={3}
+              step={0.05}
+              value={speed}
+              onChange={(e) => setSpeed(Number(e.target.value))}
+              className="range-slider"
+              list="speed-presets"
+            />
+            <datalist id="speed-presets">
+              {SPEED_PRESETS.map((p) => (
+                <option key={p.value} value={p.value} label={p.label} />
+              ))}
+            </datalist>
+          </div>
+          <div className="loop-cell">
+            <label className="loop-label">
+              <input
+                type="checkbox"
+                checked={loop}
+                onChange={(e) => setLoop(e.target.checked)}
+              />
+              <span>반복 (Loop)</span>
+            </label>
           </div>
         </div>
       </section>
 
-      <section className="canvas-area" ref={renderRef}>
-        {!loaded && <span className="empty">폰트 로딩 중…</span>}
-        {loaded && error && <span className="empty" style={{ color: '#ff6b6b' }}>{error}</span>}
-        {loaded && !error && text && (
+      <section className="canvas-area">
+        {text ? (
           <TegakiRenderer
+            key={`${fontKey}-${text}-${size}-${speed}-${loop}`}
             font={currentFont.module}
-            style={{ fontSize: `${size}px`, color: '#f0f0f5' }}
+            style={{ fontSize: `${size}px`, color: '#f0f0f5', maxWidth: '100%' }}
+            time={{ mode: 'uncontrolled', speed, loop }}
           >
             {text}
           </TegakiRenderer>
+        ) : (
+          <span className="empty">텍스트를 입력해주세요 (Enter some text)</span>
         )}
       </section>
 
@@ -166,7 +206,11 @@ export default function App() {
               {f.name} · {f.language}
             </div>
             <div className="preview">
-              <TegakiRenderer font={f.module} style={{ fontSize: '36px' }}>
+              <TegakiRenderer
+                font={f.module}
+                style={{ fontSize: '32px', maxWidth: '100%' }}
+                time={{ mode: 'uncontrolled', speed: 1.5 }}
+              >
                 {f.sample}
               </TegakiRenderer>
             </div>
