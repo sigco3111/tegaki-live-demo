@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TegakiRenderer } from 'tegaki/react';
 import caveat from 'tegaki/fonts/caveat';
 import tangerine from 'tegaki/fonts/tangerine';
@@ -61,18 +61,52 @@ const PRESETS: Record<FontKey, string> = {
 const SPEED_PRESETS = [
   { value: 0.25, label: '0.25x (느리게)' },
   { value: 0.5, label: '0.5x' },
-  { value: 1, label: '1x (기본)' },
+  { value: 1, label: '1x' },
   { value: 1.5, label: '1.5x' },
-  { value: 2, label: '2x' },
-  { value: 3, label: '3x (빠르게)' },
+  { value: 2, label: '2x (기본)' },
+  { value: 3, label: '3x' },
+  { value: 4, label: '4x (빠르게)' },
 ];
 
 export default function App() {
   const [fontKey, setFontKey] = useState<FontKey>('nanum-pen-script');
   const [text, setText] = useState(PRESETS['nanum-pen-script']);
   const [size, setSize] = useState(72);
-  const [speed, setSpeed] = useState(1);
+  const [speed, setSpeed] = useState(2);
   const [loop, setLoop] = useState(false);
+
+  // Inject @font-face for non-Latin fonts (Nanum Pen Script + Klee One)
+  // Required because tegaki computes layout using the font-family string;
+  // if the browser can't find the font, all glyph widths collapse to ~0
+  // and characters overlap at the same x-coordinate.
+  useEffect(() => {
+    const css = `
+      @font-face {
+        font-family: 'Nanum Pen Script Tegaki 38efadb5';
+        src: url('./fonts/nanum-pen-script/subset.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Nanum Pen Script';
+        src: url('./fonts/nanum-pen-script/full.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Klee One Tegaki d192e144';
+        src: url('./fonts/klee-one/subset.ttf') format('truetype');
+      }
+      @font-face {
+        font-family: 'Klee One';
+        src: url('./fonts/klee-one/full.ttf') format('truetype');
+      }
+    `;
+    const id = 'tegaki-custom-font-faces';
+    let el = document.getElementById(id);
+    if (!el) {
+      el = document.createElement('style');
+      el.id = id;
+      document.head.appendChild(el);
+    }
+    el.textContent = css;
+  }, []);
 
   const currentFont = FONTS.find((f) => f.key === fontKey)!;
 
@@ -153,7 +187,7 @@ export default function App() {
               id="speed"
               type="range"
               min={0.25}
-              max={3}
+              max={4}
               step={0.05}
               value={speed}
               onChange={(e) => setSpeed(Number(e.target.value))}
