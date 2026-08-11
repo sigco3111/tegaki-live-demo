@@ -1,0 +1,24 @@
+{
+  "name": "tegaki-live-demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "한글/영문/일본어 손글씨 애니메이션 라이브 데모 (Live demo for handwriting animation with Korean, English, Japanese fonts)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tegaki": "^0.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.2"
+  }
+}
