@@ -2,7 +2,7 @@
 
 **한글 · 영어 · 일본어 손글씨 애니메이션 라이브 데모** — [`gkurt/tegaki`](https://github.com/gkurt/tegaki) 기반
 
-🌐 **라이브 데모**: https://tegaki-live-demo.vercel.app
+🌐 **라이브 데모**: https://sigco3111.github.io/tegaki-live-demo
 
 > 아무 텍스트나 입력하면 그게 손글씨 애니메이션으로 그려져요. 폰트 4종 (한글/일본어/영어 2개) + 크기/속도/반복 모두 조절 가능.
 
@@ -35,7 +35,7 @@
 
 | 항목 | 값 |
 |---|---|
-| 🌐 라이브 URL | **https://tegaki-live-demo.vercel.app** |
+| 🌐 라이브 URL | **https://sigco3111.github.io/tegaki-live-demo** |
 | 📦 소스 코드 | https://github.com/sigco3111/tegaki-live-demo |
 | 🎯 기반 라이브러리 | [gkurt/tegaki](https://github.com/gkurt/tegaki) (MIT, 3k+ ⭐) |
 | 🚀 배포 | Vercel (free alias, anon 200) |
@@ -514,7 +514,7 @@ useEffect(() => {
 **진단**: JS hash 비교
 ```bash
 LOCAL_HASH=$(ls ~/work/tegaki-live-demo/dist/assets/index-*.js | sed 's/.*index-//;s/\.js//')
-ALIAS_HASH=$(curl -s https://tegaki-live-demo.vercel.app/ | grep -oE 'assets/index-[A-Za-z0-9_-]+\.js' | sed 's/.*index-//;s/\.js//')
+ALIAS_HASH=$(curl -s https://sigco3111.github.io/tegaki-live-demo/ | grep -oE 'assets/index-[A-Za-z0-9_-]+\.js' | sed 's/.*index-//;s/\.js//')
 [ "$LOCAL_HASH" = "$ALIAS_HASH" ] && echo "OK" || echo "FAIL → 강제 redeploy"
 ```
 
@@ -527,7 +527,7 @@ ALIAS_HASH=$(curl -s https://tegaki-live-demo.vercel.app/ | grep -oE 'assets/ind
 **원인**: Vercel Team 레벨 `ssoProtection`이 켜져 있음.
 
 **해결**: 항상 **free alias** URL을 README에 박기:
-- ✅ `https://tegaki-live-demo.vercel.app`
+- ✅ `https://sigco3111.github.io/tegaki-live-demo`
 - ❌ `https://tegaki-live-demo-xxxxx-sigco3111s-projects.vercel.app`
 
 ---
@@ -662,4 +662,4 @@ SOFTWARE.
 
 ⭐ 이 데모가 유용하다면 [sigco3111/tegaki-live-demo](https://github.com/sigco3111/tegaki-live-demo)에 별점을 눌러주세요!
 
-🌐 **라이브 데모**: https://tegaki-live-demo.vercel.app
+🌐 **라이브 데모**: https://sigco3111.github.io/tegaki-live-demo
