@@ -23,7 +23,6 @@
 - [📁 프로젝트 구조](#-프로젝트-구조-structure)
 - [알려진 함정 / Troubleshooting](#알려진-함정--troubleshooting)
 - [성능 / 번들 사이즈](#성능--번들-사이즈)
-- [로드맵](#로드맵-roadmap)
 - [🌏 다국어](#-다국어-multilingual)
 - [🤖 생성 정보](#-생성-정보-attribution)
 - [📜 라이선스](#-라이선스-license)
@@ -167,7 +166,7 @@ vercel --prod
 | `dist/fonts/klee-one/full.ttf` | 6.7 MB | — |
 | `dist/fonts/klee-one/subset.ttf` | 237 KB | — |
 
-**총 페이로드**: ~17 MB (대부분 ttf 폰트). 한/일 폰트 lazy load 가능 시 7 MB 절감 가능 (로드맵 참조).
+**총 페이로드**: ~17 MB (대부분 ttf 폰트). 한/일 폰트 lazy load 가능 시 7 MB 절감 가능 (아래 §"성능 / 번들 사이즈" 최적화 후보 참조).
 
 ---
 
@@ -578,45 +577,6 @@ dist/fonts/klee-one/subset.ttf        237 KB
 폰트 로딩 완료 (loaded): ~1.5초
 첫 페인트 (FP): ~0.4초
 ```
-
----
-
-## 로드맵 (Roadmap)
-
-### v0.2 — UX 개선 (진행 예정)
-
-- [ ] SVG export 버튼 (애니메이션 완료 시점의 정적 SVG)
-- [ ] PNG export 버튼 (html-to-image)
-- [ ] WebM export (애니메이션 자체를 영상으로)
-- [ ] 텍스트 색상 선택 (현재 #f0f0f5 고정)
-- [ ] 폰트 업로드 기능 (Tegaki Studio path data 직접 import)
-
-### v0.3 — 폰트 확장
-
-- [ ] Italianno, Parisienne 추가 (라틴 2종)
-- [ ] Suez One (히브리어), Amiri (아랍어), Tillana (데바나가리), Atma (벵골어)
-- [ ] custom 폰트 업로드 UI (Tegaki Studio 출력 호환)
-
-### v0.4 — 성능
-
-- [ ] 한/일 폰트 lazy import (dynamic)
-- [ ] glyphData JSON → msgpack/brotli 압축
-- [ ] TTF → WOFF2 변환
-
-### v0.5 — 통합
-
-- [ ] Slidev 통합 예제 (readme.md에 데모 임베드)
-- [ ] Remotion 통합 예제 (React 영상 생성)
-- [ ] Notion 임베드 가능 iframe 버전
-- [ ] README 한국어 ↔ 영어 자동 토글 (i18n)
-
-### 백로그
-
-- [ ] 키보드 단축키 (Space=재생, Cmd+K=속도 토글)
-- [ ] URL 파라미터로 텍스트/폰트/사이즈 공유
-- [ ] 텍스트 히스토리 (localStorage)
-- [ ] 다크/라이트 테마 토글
-- [ ] PWA (오프라인 동작)
 
 ---
 
