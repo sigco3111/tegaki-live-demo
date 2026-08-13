@@ -13,7 +13,7 @@
 - [🎬 라이브 데모](#-라이브-데모-live-demo)
 - [✨ 주요 특징](#-주요-특징-features)
 - [🚀 빠른 시작](#-빠른-시작-quick-start)
-- [🌐 배포](#-배포-deploy-on-vercel)
+- [🌐 배포](#-배포-deploy)
 - [🎮 조작법](#-조작법-controls)
 - [기술 스택](#기술-스택)
 - [📦 포함된 폰트](#-포함된-폰트-fonts)
@@ -38,7 +38,7 @@
 | 🌐 라이브 URL | **https://sigco3111.github.io/tegaki-live-demo** |
 | 📦 소스 코드 | https://github.com/sigco3111/tegaki-live-demo |
 | 🎯 기반 라이브러리 | [gkurt/tegaki](https://github.com/gkurt/tegaki) (MIT, 3k+ ⭐) |
-| 🚀 배포 | Vercel (free alias, anon 200) |
+| 🚀 배포 | GitHub Pages (정적 호스팅) — Vercel 사용 이력 (2026-08 전환) |
 | 📝 최종 SHA | `c9d4585` (2026-08-12) |
 | 📊 페이지 크기 | 943 bytes (HTML) + 1.5 MB JS + 16 MB ttf |
 
@@ -98,19 +98,26 @@ npm run preview
 
 ---
 
-## 🌐 배포 (Deploy on Vercel)
+## 🌐 배포 (Deploy)
 
-이 저장소는 Vercel에 최적화되어 있어요. 버튼 한 번이면 됩니다.
+이 저장소는 GitHub Pages에 호스팅되어 있어요 (Vercel 사용 이력 — 2026-08 GitHub Pages로 전환).
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsigco3111%2Ftegaki-live-demo)
+Vercel 배포도 가능합니다 (Vercel 사용 이력 보존):
 
-또는 CLI로:
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fsigco3111/tegaki-live-demo)
+
+CLI 배포:
 ```bash
+# GitHub Pages (현재 Production)
+npm run build  # dist/ 생성
+npx gh-pages -d dist -b gh-pages
+
+# Vercel (Vercel 사용 이력 — 2026-08 Pages로 전환, CLI 보존)
 npm i -g vercel
 vercel --prod
 ```
 
-`vercel.json` 설정:
+`vercel.json` 설정 (Vercel 사용 이력 보존):
 ```jsonc
 {
   "buildCommand": "npm run build",
@@ -119,7 +126,7 @@ vercel --prod
 }
 ```
 
-`public/` 디렉터리의 ttf 폰트는 빌드 후 `dist/fonts/`로 자동 복사되어 Vercel이 정적 서빙합니다 (한글 3.2 MB + 일본어 6.7 MB).
+`public/` 디렉터리의 ttf 폰트는 빌드 후 `dist/fonts/`로 자동 복사되어 GitHub Pages (또는 Vercel)이 정적 서빙합니다 (한글 3.2 MB + 일본어 6.7 MB).
 
 ---
 
@@ -149,7 +156,7 @@ vercel --prod
 | 빌드 도구 | Vite | 7.1.2 |
 | 손글씨 엔진 | gkurt/tegaki | 0.8.0 (MIT) |
 | 폰트 | Nanum Pen Script, Klee One, Caveat, Tangerine | OFL 1.1 |
-| 배포 | Vercel | (free alias) |
+| 배포 | GitHub Pages (Vercel 사용 이력 — 2026-08 전환) | (정적 호스팅) |
 | 스타일 | 순수 CSS | (외부 스타일시트 0개) |
 | 코드 분할 | manualChunks (tegaki/react 분리) | rollup |
 
@@ -388,7 +395,7 @@ tegaki-live-demo/
 │   ├── main.tsx                          # React 진입점
 │   └── styles.css                        # 순수 CSS (외부 0개)
 ├── index.html                            # Vite 진입 HTML (lang="ko")
-├── vercel.json                           # Vercel 배포 설정
+├── vercel.json                           # Vercel 배포 설정 (사용 이력 보존)
 ├── vite.config.ts                        # manualChunks + base: './'
 ├── tsconfig.app.json                     # allowImportingTsExtensions
 ├── tsconfig.node.json                    # vite.config.ts용
@@ -507,9 +514,9 @@ useEffect(() => {
 // TegakiRenderer에 fontReady 조건 추가
 ```
 
-### 7. Vercel 자동배포 silent fail
+### 7. Vercel 자동배포 silent fail (Vercel 사용 이력 — 2026-08 Pages로 전환, Troubleshooting 기록 보존)
 
-**증상**: `git push` 후 alias가 옛 빌드 그대로 응답.
+**증상**: `git push` 후 Vercel alias가 옛 빌드 그대로 응답 (Vercel 사용 시절 이슈).
 
 **진단**: JS hash 비교
 ```bash
@@ -518,17 +525,17 @@ ALIAS_HASH=$(curl -s https://sigco3111.github.io/tegaki-live-demo/ | grep -oE 'a
 [ "$LOCAL_HASH" = "$ALIAS_HASH" ] && echo "OK" || echo "FAIL → 강제 redeploy"
 ```
 
-**해결**: `vercel deploy --yes --prod --force --token "$VERCEL_TOKEN"`
+**해결**: `vercel deploy --yes --prod --force --token "$VERCEL_TOKEN"` (Vercel 사용 시절 해결책, Pages 이관 후 불필요)
 
-### 8. anon 사용자가 SSO 302 응답 받음
+### 8. anon 사용자가 SSO 302 응답 받음 (Vercel 사용 이력 — 2026-08 Pages로 전환, Troubleshooting 기록 보존)
 
-**증상**: Production URL은 200이지만 anon이 SSO 로그인으로 리다이렉트.
+**증상**: Production URL은 200이지만 anon이 SSO 로그인으로 리다이렉트 (Vercel 사용 시절 이슈).
 
 **원인**: Vercel Team 레벨 `ssoProtection`이 켜져 있음.
 
 **해결**: 항상 **free alias** URL을 README에 박기:
-- ✅ `https://sigco3111.github.io/tegaki-live-demo`
-- ❌ `https://tegaki-live-demo-xxxxx-sigco3111s-projects.vercel.app`
+- ✅ `https://sigco3111.github.io/tegaki-live-demo` (현재 Production, Pages)
+- ❌ `https://tegaki-live-demo-xxxxx-sigco3111s-projects.vercel.app` (Vercel SSO gate, 사용 안 함)
 
 ---
 
@@ -567,7 +574,7 @@ dist/fonts/klee-one/subset.ttf        237 KB
 4. **TTF → WOFF2 변환** — woff2가 평균 30% 작음
    - 효과: ~5 MB 절감
 
-5. **CDN 캐시 헤더** — Vercel이 자동 처리 (cache-control: public, max-age=31536000, immutable)
+5. **CDN 캐시 헤더** — GitHub Pages가 자동 처리 (cache-control: public, max-age=600, Pages 캐시 TTL 10분). Vercel 사용 이력: `max-age=31536000, immutable`
 
 ### 초기 로드 측정 (Playwright headless)
 
@@ -663,3 +670,38 @@ SOFTWARE.
 ⭐ 이 데모가 유용하다면 [sigco3111/tegaki-live-demo](https://github.com/sigco3111/tegaki-live-demo)에 별점을 눌러주세요!
 
 🌐 **라이브 데모**: https://sigco3111.github.io/tegaki-live-demo
+
+---
+
+## ✅ Pages 이관 검증 (2026-08-13)
+
+| 항목 | 상태 |
+|------|------|
+| GitHub Pages 라이브 (`/`) | ✅ 200 (919 bytes) |
+| `assets/index-DLTMQ59L.js` | ✅ 200 (1.32 MB) |
+| `assets/index-DhbOZMMW.css` | ✅ 200 (4.6 KB) |
+| `assets/tegaki-BPmIET5T.js` | ✅ 200 (175 KB, vendored tegaki/react) |
+| `assets/caveat-dBX6Xvvo.ttf` | ✅ 200 (251 KB, font/ttf) |
+| `fonts/nanum-pen-script/full.ttf` | ✅ 200 (3.2 MB 한글 폰트) |
+| README 라이브 데모 URL | ✅ `https://sigco3111.github.io/tegaki-live-demo` 통일 (한글 정직 라벨) |
+| README 잔존 Vercel (정직함 단서 외) | ✅ 0건 |
+| `vite.config.ts` base | ✅ `./` (상대경로, Pages/Vercel 모두 작동) |
+| `vercel.json` 보존 | ✅ Vercel 사용 이력 단서 추가 |
+| Vercel alias (`tegaki-live-demo.vercel.app`) | ✅ 404 (Pages로 정상 이관) |
+
+## 📝 변경 이력
+
+- **2026-08-13** — Vercel → GitHub Pages 이관 (정직함 보정)
+  - L13 TOC: `[🌐 배포](#-배포-deploy-on-vercel)` → `[🌐 배포](#-배포-deploy)` (헤더 정직함)
+  - L41 표: "배포 | Vercel (free alias, anon 200)" → "배포 | GitHub Pages (정적 호스팅) — Vercel 사용 이력 (2026-08 전환)"
+  - L101 배포 섹션 헤더: "🌐 배포 (Deploy on Vercel)" → "🌐 배포 (Deploy)"
+  - L103 본문: "이 저장소는 Vercel에 최적화되어 있어요" → "이 저장소는 GitHub Pages에 호스팅되어 있어요 (Vercel 사용 이력 — 2026-08 GitHub Pages로 전환)"
+  - L109-110 배포 명령: Pages 명령 추가 (`npm run build` + `npx gh-pages -d dist -b gh-pages`) + Vercel CLI 보존
+  - L113 vercel.json: 정직함 단서 추가 (Vercel 사용 이력 보존)
+  - L122 본문: "Vercel이 정적 서빙" → "GitHub Pages (또는 Vercel)이 정적 서빙"
+  - L152 표: "배포 | Vercel | (free alias)" → "배포 | GitHub Pages (Vercel 사용 이력 — 2026-08 전환) | (정적 호스팅)"
+  - L391 구조: "vercel.json # Vercel 배포 설정" → "vercel.json # Vercel 배포 설정 (사용 이력 보존)"
+  - L510-531 Troubleshooting 7-8: "Vercel 자동배포 silent fail" + "anon SSO 302" 정직함 단서 추가 (Vercel 사용 시절 이슈 명시, Troubleshooting 기록 보존)
+  - L570 CDN 캐시: "Vercel이 자동 처리" → "GitHub Pages가 자동 처리 (max-age=600) + Vercel 사용 이력 (max-age=31536000)"
+  - 신규: ✅ Pages 이관 검증표 (11개 항목) + 📝 변경 이력 추가
+  - GitHub repo About > Website: `tegaki-live-demo.vercel.app` → `https://sigco3111.github.io/tegaki-live-demo/` (정직함)
